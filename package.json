@@ -1,0 +1,16 @@
+{
+  "name": "site-backend",
+  "version": "1.0.0",
+  "description": "Backend service for SITE Technologies code challenge",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dylan Fiedler (dfieds913@gmail.com)",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^18.1.0",
+    "mongodb": "^3.4.1"
+  }
+}

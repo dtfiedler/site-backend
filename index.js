@@ -3,7 +3,6 @@
 const hapi = require('hapi');
 const config = require('./config/config');
 const routes = require('./config/routes');
-
 /**
  * Intialize server.
  */

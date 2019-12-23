@@ -1,15 +1,14 @@
 
 require('dotenv').config();
-
-var MongoClient = require('mongodb').MongoClient;
-var MONGODB_URL = process.env.MONGODB_URL;
+const Request = require('../models/Request');
+const MongoClient = require('mongodb').MongoClient;
+const MONGODB_URL = process.env.MONGODB_URL;
 const WEATHER_BASE_URL = '/api/weather';
 
 const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_NAME = process.env.DB_NAME;
 const CONNECTION_URL = `mongodb://${DB_USER}:${DB_PASSWORD}@${MONGODB_URL}`
-
 /**
  * Routes for the given service.
  * 
@@ -36,7 +35,7 @@ module.exports = [
                 const client = await MongoClient.connect(CONNECTION_URL);
                 const db = client.db(DB_NAME);
                 const collection = db.collection('weather');
-                return collection.find().toArray();
+                return collection.find().sort({timestamp: -1}).toArray();
             } catch(e){
                 console.log(e);
                 return h.response(e).status(300);
@@ -52,9 +51,10 @@ module.exports = [
         handler: async (request, h) => {
             try {
                 const { lat, long, date } = request.params;
+                const newRequest = new Request(lat, long, date);
                 const client = await MongoClient.connect(CONNECTION_URL);
                 const db = client.db(DB_NAME);
-                const result = await db.collection('weather').insertOne({timestamp: new Date(), latitude: lat, longitude: long, dateRequested: date});
+                const result = await db.collection('weather').insertOne(newRequest);
                 return h.response(result);
             } catch(e){
                 console.log(e);

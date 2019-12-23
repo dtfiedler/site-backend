@@ -3,6 +3,9 @@
 const hapi = require('hapi');
 const config = require('./config/config');
 const routes = require('./config/routes');
+const hapiSwagger = require('hapi-swagger');
+const vision = require('vision');
+const inert = require('inert');
 /**
  * Intialize server.
  */
@@ -17,11 +20,33 @@ const init = async () => {
      */
     server.route(routes);
 
-    /**
-     * Start the server.
-     */
-    await server.start();
-    console.log('Server running on %s', server.info.uri);
+    try {
+        /**
+         * Register packages.
+         */
+        await server.register([
+            inert,
+            vision,
+            {
+                name: 'Hapi Swagger',
+                plugin: hapiSwagger,
+                options: {
+                    info: {
+                        title: 'API Endpoints',
+                        description: 'API documentation for my service',
+                        version: '1.0',
+                    }
+                }
+            }
+        ]);
+        /**
+         * Start the server.
+         */
+        await server.start();
+        console.log('Server running on %s', server.info.uri);
+    } catch(e){
+        console.log('Failed to start server: %s', e);
+    }
 };
 
 /**

@@ -1,5 +1,6 @@
 
 require('dotenv').config();
+const joi = require('joi');
 const Request = require('../models/Request');
 const MongoClient = require('mongodb').MongoClient;
 const MONGODB_URL = process.env.MONGODB_URL;
@@ -30,6 +31,9 @@ module.exports = [
     {
         method: 'GET',
         path: `${WEATHER_BASE_URL}/history`,
+        config: {
+            tags: ['api'],
+        },
         handler: async (request, h) => {
             try {
                 const client = await MongoClient.connect(CONNECTION_URL);
@@ -48,6 +52,16 @@ module.exports = [
     {
         method: 'GET', 
         path: `${WEATHER_BASE_URL}/save/{lat}/{long}/{date}`, 
+        config: {
+            tags: ['api'],
+            validate: {
+                params: {
+                    lat: joi.string(),
+                    long: joi.string(),
+                    date: joi.string()
+                }
+            }
+        },
         handler: async (request, h) => {
             try {
                 const { lat, long, date } = request.params;

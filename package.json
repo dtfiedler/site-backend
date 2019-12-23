@@ -13,6 +13,8 @@
   "author": "Dylan Fiedler (dfieds913@gmail.com)",
   "license": "ISC",
   "dependencies": {
+    "@hapi/inert": "^5.2.2",
+    "@hapi/vision": "^5.5.4",
     "dotenv": "^8.2.0",
     "hapi": "^18.1.0",
     "hapi-swagger": "^11.1.0",

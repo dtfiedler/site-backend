@@ -4,8 +4,8 @@ const hapi = require('hapi');
 const config = require('./config/config');
 const routes = require('./config/routes');
 const hapiSwagger = require('hapi-swagger');
-const vision = require('vision');
-const inert = require('inert');
+const vision = require('@hapi/vision');
+const inert = require('@hapi/inert');
 /**
  * Intialize server.
  */
@@ -33,7 +33,7 @@ const init = async () => {
                 options: {
                     info: {
                         title: 'API Endpoints',
-                        description: 'API documentation for my service',
+                        description: 'API documentation for my SITE Backend service',
                         version: '1.0',
                     }
                 }

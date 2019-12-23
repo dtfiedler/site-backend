@@ -31,8 +31,8 @@ module.exports = [
     {
         method: 'GET',
         path: `${WEATHER_BASE_URL}/history`,
-        config: {
-            tags: ['api'],
+        options: {
+            tags: ['api']
         },
         handler: async (request, h) => {
             try {
@@ -52,15 +52,15 @@ module.exports = [
     {
         method: 'GET', 
         path: `${WEATHER_BASE_URL}/save/{lat}/{long}/{date}`, 
-        config: {
+        options: {
             tags: ['api'],
             validate: {
                 params: {
-                    lat: joi.string(),
-                    long: joi.string(),
-                    date: joi.string()
+                    lat: joi.number().required().description('Latitude'),
+                    long: joi.number().required().description('Longitude'),
+                    date: joi.number().required().description('Date in EPOCH format')
                 }
-            }
+            },
         },
         handler: async (request, h) => {
             try {
